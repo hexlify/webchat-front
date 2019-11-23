@@ -48,15 +48,17 @@ var tempMessages = [
 ]
 
 class MessageList extends Component {
-    constructor(props) {
+      constructor(props) {
         super(props);
 
         this.state = {
             messages: tempMessages
         };
 
+        this.messagesEndRef = React.createRef();
         this.addMessage = this.addMessage.bind(this);
         this.submitMessage = this.submitMessage.bind(this);
+        this.scrollToBottom = this.scrollToBottom.bind(this);
     }
 
     addMessage(message) {
@@ -74,11 +76,27 @@ class MessageList extends Component {
         this.addMessage(message);
     }
 
+    scrollToBottom() {
+      this.messagesEndRef.current.scrollIntoView({behavior: 'smooth'});
+    }
+
+    componentDidMount() {
+      this.scrollToBottom();
+    }
+
+    componentDidUpdate() {
+      this.scrollToBottom();
+    }
+
     render() {
         return (
             <div>
                 <div className="message-list-container">
                     {this.state.messages.map((message, i) => <Message key={i} isMine={message.isMine} author={message.author} text={message.text}/>)}
+                </div>
+
+                <div ref={this.messagesEndRef}>
+
                 </div>
 
                 <MessageInput onSubmitMessage={this.submitMessage} />

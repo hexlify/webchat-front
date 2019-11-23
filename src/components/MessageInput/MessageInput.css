@@ -4,7 +4,7 @@
     align-items: center;
     background: white;
     border-top: 1px solid #eeeef1;
-    position: fixed;
+    position: sticky;
     width: calc(100% - 20px);
     bottom: 0px;
 }
@@ -16,7 +16,6 @@
     height: 60px;
     background: none;
 }
-
 
 .compose .submit-button {
     margin-left: 15px;
