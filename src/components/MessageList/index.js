@@ -5,12 +5,54 @@ import MessageInput from '../MessageInput'
 import './MessageList.css'
 
 
+var tempMessages = [
+    {
+      text: 'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works. Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works. Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works. Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works. Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works. Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
+      isMine: true
+    },
+    {
+      text: 'It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!v',
+      isMine: true
+    },
+    {
+      author: 'orange',
+      text: 'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
+      isMine: false
+    },
+    {
+        text: 'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works. Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works. Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works. Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works. Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works. Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
+        isMine: true
+      },
+      {
+        text: 'It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!v',
+        isMine: true
+      },
+      {
+        author: 'orange',
+        text: 'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
+        isMine: false
+      },
+          {
+      text: 'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works. Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works. Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works. Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works. Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works. Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
+      isMine: true
+    },
+    {
+      text: 'It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!v',
+      isMine: true
+    },
+    {
+      author: 'orange',
+      text: 'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
+      isMine: false
+    }
+]
+
 class MessageList extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            messages: []
+            messages: tempMessages
         };
 
         this.addMessage = this.addMessage.bind(this);
@@ -25,6 +67,7 @@ class MessageList extends Component {
 
     submitMessage(text) {
         const message = {
+            author: null,
             text: text,
             isMine: true
         };

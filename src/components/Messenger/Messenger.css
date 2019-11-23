@@ -10,6 +10,12 @@
     grid-row-gap: 1px;
 }
 
+.sidebar {
+    background: white;
+    grid-row-start: 1;
+    grid-row-end: span 3;
+}
+
 .scrollable {
     position: relative;
     overflow-y: scroll;
@@ -20,4 +26,4 @@
     background: white;
     grid-row-start: 1;
     grid-row-end: span 3;
-  }
+}
