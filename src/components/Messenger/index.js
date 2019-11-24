@@ -1,45 +1,87 @@
 import React, {Component} from 'react';
-import MessageList from '../MessageList'
-import ConversationList from '../ConversationList'
-import MessageInput from '../MessageInput'
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs'
 
-import './Messenger.css'
+import MessageList from '../MessageList';
+import ConversationList from '../ConversationList';
+import MessageInput from '../MessageInput';
+
+import './Messenger.css';
 
 var initialMessages = [
     {
-      author: 'Webchat',
-      text: 'Hello there! You can now chat with strangers!',
-      isMine: false
-    },
-    {
-        author: 'Webchat',
-        text: 'Good luck',
+        sender: 'Webchat',
+        content: 'Hello there! You can now chat with strangers! Good luck',
         isMine: false
-      }
+    }
 ]
 
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+}
 
 class Messenger extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             messages: initialMessages
         };
 
-        this.submitMessage = this.submitMessage.bind(this);
+        this.username = 'User' + getRandomInt(10);
+
+        this.onConnected = this.onConnected.bind(this);
+        this.onError = this.onError.bind(this);
+        this.sendMessage = this.sendMessage.bind(this);
+        this.onMessageReceived = this.onMessageReceived.bind(this);
+
+        let socket = new SockJS('http://localhost:8000/ws');
+        this.client = Stomp.over(socket);
+        this.client.connect({}, this.onConnected, this.onError);
     }
 
-    submitMessage(text) {
-        const message = {
-            author: null,
-            text: text,
-            isMine: true
+    onConnected() {
+        this.client.subscribe('/topic/public', this.onMessageReceived);
+        this.client.send(
+            '/app/chat/addUser',
+            {},
+            JSON.stringify({sender: this.username, type: 'Join'})
+        );
+    }
+
+    onError(error) {
+        let errorChatMessage =     {
+            sender: 'Webchat',
+            content: error,
+            isMine: false
         };
+
         this.setState({
-            messages: [...this.state.messages, message]
+            messages: [...this.state.messages, errorChatMessage]
         });
+    }
+
+    sendMessage(text) {
+        let chatMessage = {
+            sender: this.username,
+            content: text,
+            type: 'Chat'
+        };
+        this.client.send('/app/chat/sendMessage', {}, JSON.stringify(chatMessage));
+
+        chatMessage.isMine = true;
+        this.setState({
+            messages: [...this.state.messages, chatMessage]
+        });
+    }
+
+    onMessageReceived(payload) {
+        let chatMessage = JSON.parse(payload.body);
+        chatMessage.isMine = false;
+
+        this.setState({
+            messages: [...this.state.messages, chatMessage ]
+        })
     }
 
     render() {
@@ -54,7 +96,7 @@ class Messenger extends Component {
                 </div>
 
                 <div className="bottom-bar">
-                    <MessageInput onSubmitMessage={this.submitMessage} />
+                    <MessageInput onSubmitMessage={this.sendMessage} />
                 </div>
             </div>
         );

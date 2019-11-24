@@ -8,7 +8,7 @@ class Message extends Component {
         return (
             <div className={`message${this.props.isMine ? ' mine' : ''}`}>
                 <div className="author-content">
-                    {this.props.author}
+                    {this.props.isMine ? '' : this.props.author}
                 </div>
                 <div className='message-content'>
                     {this.props.text}

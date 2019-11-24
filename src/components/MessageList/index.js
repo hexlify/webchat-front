@@ -28,7 +28,7 @@ class MessageList extends Component {
         return (
             <div>
                 <div className="message-list-container">
-                    {this.props.messages.map((message, i) => <Message key={i} isMine={message.isMine} author={message.author} text={message.text}/>)}
+                    {this.props.messages.map((message, i) => <Message key={i} isMine={message.isMine} author={message.sender} text={message.content}/>)}
                 </div>
 
                 <div ref={this.messagesEndRef}>
