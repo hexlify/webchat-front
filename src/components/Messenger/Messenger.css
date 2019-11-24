@@ -4,8 +4,8 @@
     height: 100vh;
     background: #eeeef1;
 
-    grid-template-columns: 350px auto 200px;
-    grid-template-rows: 60px auto 60px;
+    grid-template-columns: 350px auto ;
+    grid-template-rows: 60px auto 70px;
     grid-column-gap: 1px;
     grid-row-gap: 1px;
 }
@@ -24,15 +24,13 @@
 }
 
 .content {
-    background: white;
     grid-row-start: 1;
-    grid-row-end: span 3;
+    grid-row-end: span 2;
     grid-column: 2;
 }
 
-.right-sidebar {
-    background: white;
-    grid-row-start: 1;
-    grid-row-end: span 3;
-    grid-column: 3;
+.bottom-bar {
+    background: pink;
+    grid-row: 3;
+    grid-column: 2;
 }
