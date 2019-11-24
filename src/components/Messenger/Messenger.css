@@ -4,16 +4,17 @@
     height: 100vh;
     background: #eeeef1;
 
-    grid-template-columns: 350px auto;
+    grid-template-columns: 350px auto 350px;
     grid-template-rows: 60px auto 60px;
     grid-column-gap: 1px;
     grid-row-gap: 1px;
 }
 
-.sidebar {
+.left-sidebar {
     background: white;
     grid-row-start: 1;
     grid-row-end: span 3;
+    grid-column: 1;
 }
 
 .scrollable {
@@ -26,4 +27,12 @@
     background: white;
     grid-row-start: 1;
     grid-row-end: span 3;
+    grid-column: 2;
+}
+
+.right-sidebar {
+    background: white;
+    grid-row-start: 1;
+    grid-row-end: span 3;
+    grid-column: 3;
 }
