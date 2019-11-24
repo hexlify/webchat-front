@@ -77,6 +77,19 @@ class Messenger extends Component {
 
     onMessageReceived(payload) {
         let chatMessage = JSON.parse(payload.body);
+
+        if (chatMessage.sender === this.username) {
+            return;
+        }
+
+        if (chatMessage.type === 'Join') {
+            chatMessage.content = 'Entered the room';
+        }
+
+        if (chatMessage.type === 'Leave') {
+            chatMessage.content = 'Left the room';
+        }
+
         chatMessage.isMine = false;
 
         this.setState({
