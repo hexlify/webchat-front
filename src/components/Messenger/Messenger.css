@@ -30,7 +30,6 @@
 }
 
 .bottom-bar {
-    background: pink;
     grid-row: 3;
     grid-column: 2;
 }

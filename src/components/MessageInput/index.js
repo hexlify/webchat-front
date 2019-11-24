@@ -45,7 +45,7 @@ class MessageInput extends Component {
                     onKeyPress={this.onKeyPress}
                     autoFocus
                 />
-                <Button className="submit-button" onClick={this.onSubmit}>Send</Button>
+                <Button variant="contained" color="primary" className="submit-button" onClick={this.onSubmit}>Send</Button>
             </div>
         );
     }
