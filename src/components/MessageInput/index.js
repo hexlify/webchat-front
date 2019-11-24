@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import RaisedButton from 'material-ui/RaisedButton'
-import TextField from 'material-ui/TextField'
+import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
 
 import './MessageInput.css'
 
@@ -37,6 +37,7 @@ class MessageInput extends Component {
         return (
             <div className="compose">
                 <TextField
+                    id="message-input"
                     className="compose-input"
                     placeholder="Write message here..."
                     value={this.state.message}
@@ -44,7 +45,7 @@ class MessageInput extends Component {
                     onKeyPress={this.onKeyPress}
                     autoFocus
                 />
-                <RaisedButton className="submit-button" onClick={this.onSubmit}>Send</RaisedButton>
+                <Button className="submit-button" onClick={this.onSubmit}>Send</Button>
             </div>
         );
     }
