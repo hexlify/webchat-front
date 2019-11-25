@@ -35,7 +35,7 @@ class Messenger extends Component {
         this.sendMessage = this.sendMessage.bind(this);
         this.onMessageReceived = this.onMessageReceived.bind(this);
 
-        let socket = new SockJS('http://localhost:8000/ws');
+        let socket = new SockJS('https://webchat-backend.herokuapp.com/ws');
         this.client = Stomp.over(socket);
         this.client.connect({}, this.onConnected, this.onError);
     }
