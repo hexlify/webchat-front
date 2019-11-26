@@ -4,49 +4,28 @@ import ConversationListItem from '../ConversationListItem'
 import './ConversationList.css'
 
 
-const tempConversations = [
-    {
-        id: 1,
-        name: 'Conv1',
-        description: 'Veryyyyyyyyyyyyyyy long description'
-    },
-    {
-        id: 2,
-        name: 'Veryyyyyyyyyyyyyyyyyyyyyyyy long title',
-        description: 'Description2'
-    },
-    {
-        id: 3,
-        name: 'Conv3',
-        description: 'Description3'
-    }
-];
-
-
 class ConversationList extends Component {
+
     constructor(props) {
         super(props);
 
-        this.state = {
-            conversations: tempConversations
-        }
-
-        this.getConversations = this.getConversations.bind(this);
+        this.onItemChoice = this.onItemChoice.bind(this);
     }
 
-    getConversations() {
-
+    onItemChoice(conversationId, e) {
+        this.props.chooseConversation(conversationId)
     }
 
     render() {
         return (
             <div className="conversation-list">
                 {
-                    this.state.conversations.map(c =>
+                    this.props.conversations.map(c =>
                         <ConversationListItem
                             key={c.id}
                             name={c.name}
                             description={c.description}
+                            onClick={(e) => this.onItemChoice(c.id, e)}
                         />)
                 }
             </div>

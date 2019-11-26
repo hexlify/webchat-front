@@ -4,7 +4,7 @@ import './ConversationListItem.css'
 
 
 function ConversationListItem(props) {
-    let {name, description} = props;
+    let {name, description, onClick} = props;
     if (name.length > 25) {
         name = name.slice(0, 22) + '...';
     }
@@ -14,7 +14,7 @@ function ConversationListItem(props) {
 
     return (
 
-        <div className="conversation-list-item">
+        <div className="conversation-list-item" onClick={onClick}>
             <h1 className="conversation-title">{name}</h1>
             <p className="conversation-desciption">{description}</p>
         </div>
