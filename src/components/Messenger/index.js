@@ -8,6 +8,7 @@ import MessageInput from '../MessageInput';
 
 import ChatMessageRequest from '../../ApiContracts/ChatMessageRequest';
 import ChatMessage from '../../ApiContracts/ChatMessage';
+import withAuth from '../withAuth'
 
 
 import './Messenger.css';
@@ -137,4 +138,4 @@ class Messenger extends Component {
 }
 
 
-export default Messenger;
+export default withAuth(Messenger);

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import withAuth from '../withAuth'
 
 class UserInfo extends Component {
     constructor(props) {
@@ -12,4 +12,4 @@ class UserInfo extends Component {
 }
 
 
-export default UserInfo;
+export default withAuth(UserInfo);
