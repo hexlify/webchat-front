@@ -27,16 +27,20 @@ class Login extends Component {
     async login(e) {
         this.setState({message: ''})
         e.preventDefault();
-        const credentials = {username: this.state.username, password: this.state.password};
-        AuthService.login(credentials)
-            .then(async resp => {
-                if (resp.ok) {
-                    localStorage.setItem('userInfo', await resp.text())
-                } else {
-                    const error = (await resp.json()).error;
-                    this.setState({message: error})
-                }
+
+        AuthService.login(this.state.username, this.state.password)
+            .then(res => {
+                this.props.history.replace('/me')
             })
+            .catch(err => {
+                alert(err);
+            })
+    }
+
+    componentWillMount() {
+        if (AuthService.loggenIn()) {
+            this.props.history.replace('/');
+        }
     }
 
     render() {

@@ -1,33 +1,93 @@
-const API_URL = 'http://localhost:8000';
+import decode from 'jwt-decode';
 
 
 class AuthService {
 
-    options = {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json;charset=UTF-8'
+    constructor(domain) {
+        this.domain = domain || 'http://localhost:8000';
+        this.fetch = this.fetch.bind(this);
+        this.login = this.login.bind(this);
+        this.getUserInfo = this.getUserInfo.bind(this);
+    }
+
+    login(username, password) {
+        return this.fetch(`${this.domain}/auth/login`, {
+            method: 'POST',
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
+        }).then(res => {
+            this.saveUserInfo(res)
+            return Promise.resolve(res);
+        });
+    }
+
+    loggenIn() {
+        const token = this.getToken();
+        return !!token && !this.isTokenExpired(token);
+    }
+
+    isTokenExpired(token) {
+        try {
+            const decoded = decode(token);
+            if (decoded.exp < Date.now() / 1000) {
+                return true;
+            }
+            else
+                return false;
+        }
+        catch (err) {
+            return false;
         }
     }
 
-    login(credentials) {
-        let options = this.options;
-        options.body = JSON.stringify(credentials);
-
-        return fetch(API_URL + '/auth/login', options);
+    saveUserInfo(userInfo) {
+        localStorage.setItem('userInfo', JSON.stringify(userInfo));
     }
 
     getUserInfo() {
         return JSON.parse(localStorage.getItem('userInfo'));
     }
 
-    getAuthHeader() {
-        return {Authorization: 'Bearer ' + this.getUserInfo().token };
+    getToken() {
+        const userInfo = this.getUserInfo();
+        if (userInfo == null) {
+            return null;
+        }
+        return this.getUserInfo().token;
     }
 
     logOut() {
         localStorage.removeItem("userInfo");
+    }
+
+    fetch(url, options) {
+        const headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8'
+        }
+
+        if (this.loggenIn()) {
+            headers['Authorization'] = 'Bearer' + this.getToken();
+        }
+
+        return fetch(url, {
+            headers,
+            ...options
+        })
+            .then(resp => this._checkStatus(resp))
+            .then(resp => resp.json());
+    }
+
+    _checkStatus(response) {
+        if (response.status >= 200 && response.status < 300) {
+            return response
+        } else {
+            var error = new Error(response.status)
+            error.response = response
+            throw error
+        }
     }
 }
 
