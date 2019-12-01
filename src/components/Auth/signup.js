@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
-// import {connect} from 'react-redux';
 
-
-import './Signup.css';
+import './Auth.css';
 
 
 class Signup extends Component {
@@ -35,7 +33,7 @@ class Signup extends Component {
             <form className="signup-form" onSubmit={this.onSubmit}>
                 <ul>
                     <li>
-                        <label for="username">Username</label>
+                        <label htmlFor="username">Username</label>
                         <input
                             id="username"
                             placeholder="Username"
@@ -45,7 +43,7 @@ class Signup extends Component {
                     </li>
 
                     <li>
-                        <label for="email">Email</label>
+                        <label htmlFor="email">Email</label>
                         <input
                             id="email"
                             type="email"
@@ -56,7 +54,7 @@ class Signup extends Component {
                     </li>
 
                     <li>
-                        <label for="password">Password</label>
+                        <label htmlFor="password">Password</label>
                         <input
                             id="password"
                             type="password"
