@@ -11,7 +11,7 @@ class AuthService {
     }
 
     login(username, password) {
-        return this.fetch(`${this.domain}/auth/login`, {
+        return this.fetch(`/auth/login`, {
             method: 'POST',
             body: JSON.stringify({
                 username: username,
@@ -62,14 +62,15 @@ class AuthService {
         localStorage.removeItem("userInfo");
     }
 
-    fetch(url, options) {
+    fetch(path, options) {
+        const url = this.domain + path;
         const headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json;charset=UTF-8'
         }
 
         if (this.loggenIn()) {
-            headers['Authorization'] = 'Bearer' + this.getToken();
+            headers['Authorization'] = 'Bearer ' + this.getToken();
         }
 
         return fetch(url, {
@@ -92,4 +93,4 @@ class AuthService {
 }
 
 
-export default new AuthService();
+export default AuthService;

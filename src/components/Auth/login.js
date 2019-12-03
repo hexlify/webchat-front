@@ -14,6 +14,7 @@ class Login extends Component {
             message: ''
         }
 
+        this.authService = new AuthService();
         this.handleChange = this.handleChange.bind(this);
         this.login = this.login.bind(this);
     }
@@ -28,7 +29,7 @@ class Login extends Component {
         this.setState({message: ''})
         e.preventDefault();
 
-        AuthService.login(this.state.username, this.state.password)
+        this.authService.login(this.state.username, this.state.password)
             .then(res => {
                 this.props.history.replace('/me')
             })
@@ -37,8 +38,8 @@ class Login extends Component {
             })
     }
 
-    componentWillMount() {
-        if (AuthService.loggenIn()) {
+    componentDidMount() {
+        if (this.authService.loggenIn()) {
             this.props.history.replace('/');
         }
     }

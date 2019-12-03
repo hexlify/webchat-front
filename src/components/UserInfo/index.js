@@ -1,13 +1,60 @@
 import React, {Component} from 'react';
-import withAuth from '../withAuth'
+import withAuth from '../withAuth';
+import ApiService from '../../service/ApiService';
+
+import './UserInfo.css'
+
 
 class UserInfo extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            username: '',
+            firstName: '',
+            email: ''
+        };
+    }
+
+    componentDidMount() {
+        ApiService.getUserInfo()
+            .then(info => {
+                this.setState({...info})
+            })
+            .catch(err => console.log(err));
     }
 
     render() {
-        return <h1>ME</h1>
+        return (
+            <div className="userinfo">
+                <div className="userinfo-line">
+                    <div className="label-container">
+                        <label>Email</label>
+                    </div>
+                    <div className="value-container">
+                        <label>{this.state.email}</label>
+                    </div>
+                </div>
+
+                <div className="userinfo-line">
+                    <div className="label-container">
+                        <label>Username</label>
+                    </div>
+                    <div className="value-container">
+                        <label>{this.state.username}</label>
+                    </div>
+                </div>
+
+                <div className="userinfo-line">
+                    <div className="label-container">
+                        <label>First name</label>
+                    </div>
+                    <div className="value-container">
+                        <label>{this.state.firstName}</label>
+                    </div>
+                </div>
+            </div>
+        );
     }
 }
 

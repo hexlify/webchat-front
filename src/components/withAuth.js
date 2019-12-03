@@ -10,13 +10,15 @@ export default function withAuth(AuthComponent) {
             this.state = {
                 username: null
             }
+
+            this.authService = new AuthService();
         }
 
-        componentWillMount() {
-            if (!AuthService.loggenIn()) {
+        componentDidMount() {
+            if (!this.authService.loggenIn()) {
                 this.props.history.replace('/login');
             } else {
-                const username = AuthService.getUserInfo().username;
+                const username = this.authService.getUserInfo().username;
                 this.setState({
                     username: username
                 });
