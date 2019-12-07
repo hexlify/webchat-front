@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs'
 
-import MessageList from '../MessageList';
-import ConversationList from '../ConversationList';
-import MessageInput from '../MessageInput';
+import MessageList from './Components/MessageList';
+import ConversationList from './Components/ConversationList';
+import MessageInput from './Components/MessageInput';
 
 import ChatMessageRequest from '../../ApiContracts/ChatMessageRequest';
 import ChatMessage from '../../ApiContracts/ChatMessage';
