@@ -1,38 +1,22 @@
 import React from 'react';
-import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
-import AppBar from '@material-ui/core/AppBar'
-
-import Login from './components/Auth/login';
-import Signup from './components/Auth/signup';
+import {BrowserRouter as Router, Route, } from "react-router-dom";
 import Messenger from './components/Messenger'
+import Signup from "./components/Auth/signup";
+import Login from "./components/Auth/login";
 import UserInfo from './components/UserInfo'
 
 import './App.css';
-import { Toolbar, Typography, Button } from '@material-ui/core';
-
 
 function App() {
-  return (
-    <div>
-      <AppBar position="sticky">
-        <Toolbar>
-          <Typography variant="h6" className="app-header">
-            Another webchat...
-          </Typography>
-          <Button color="inherit" href="/login">Login</Button>
-          <Button color="inherit" href="/signup">Signup</Button>
-        </Toolbar>
-      </AppBar>
+    return (
+        <Router>
+            <Route exact path="/login" component={Login}/>
+            <Route exact path="/signup" component={Signup}/>
+            <Route exact path="/me" component={UserInfo}/>
+            <Route exact path="/" component={Messenger}/>
 
-      <Router>
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
-            <Route path="/me" component={UserInfo} />
-            <Route path="/chat" component={Messenger} />
-      </Router>
-    </div>
-
-  );
+        </Router>
+    )
 }
 
 export default App;

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import withAuth from '../withAuth';
-import ApiService from '../../service/ApiService';
+import AuthService from "../../service/AuthService";
 
 import './UserInfo.css'
 
@@ -8,6 +8,7 @@ import './UserInfo.css'
 class UserInfo extends Component {
     constructor(props) {
         super(props);
+
 
         this.state = {
             username: '',
@@ -17,7 +18,7 @@ class UserInfo extends Component {
     }
 
     componentDidMount() {
-        ApiService.getUserInfo()
+        AuthService.fetch('/user')
             .then(info => {
                 this.setState({...info})
             })

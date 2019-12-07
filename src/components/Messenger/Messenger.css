@@ -1,20 +1,12 @@
 .messenger {
     display: grid;
     width: 100%;
-    height: 100vh;
+    height: calc(100vh - 1px);
     background: #eeeef1;
 
-    grid-template-columns: 350px auto ;
-    grid-template-rows: 60px auto 70px;
-    grid-column-gap: 1px;
-    grid-row-gap: 1px;
-}
-
-.left-sidebar {
-    background: white;
-    grid-row-start: 1;
-    grid-row-end: span 3;
-    grid-column: 1;
+    grid-template-columns: 350px auto;
+    grid-template-rows: 60px auto 60px;
+    grid-gap: 1px;
 }
 
 .scrollable {
@@ -23,13 +15,25 @@
     -webkit-overflow-scrolling: touch;
 }
 
+.left-sidebar {
+    background: white;
+    grid-row: 2 / -1;
+    grid-column: 1;
+}
+
 .content {
-    grid-row-start: 1;
-    grid-row-end: span 2;
+    grid-row: 2;
     grid-column: 2;
 }
 
 .bottom-bar {
+    background: white;
     grid-row: 3;
     grid-column: 2;
+}
+
+.top-bar {
+    background: white;
+    grid-row: 1;
+    grid-column: 1 / -1;
 }

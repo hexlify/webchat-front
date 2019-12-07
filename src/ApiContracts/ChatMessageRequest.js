@@ -1,6 +1,5 @@
 class ChatMessageRequest {
-    constructor(sender, content, type, chatRoomId) {
-        this.sender = sender;
+    constructor(content, type, chatRoomId) {
         this.content = content;
         this.type = type;
         this.chatRoomId = chatRoomId;

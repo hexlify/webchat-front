@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 import './Auth.css';
+import AuthService from "../../service/AuthService";
 
 
 class Signup extends Component {
@@ -23,9 +24,18 @@ class Signup extends Component {
         });
     }
 
+    componentDidMount() {
+        if (AuthService.loggenIn()) {
+            this.props.history.replace('/');
+        }
+    }
+
     handleSubmit(e) {
         e.preventDefault();
-        // this.props.usePostFetch(this.state);
+        AuthService
+            .register(this.state.username, this.state.email, this.state.password)
+            .then(() => this.props.history.replace('/login'))
+            .catch(err => alert(err));
     }
 
     render() {
@@ -67,7 +77,7 @@ class Signup extends Component {
                     <li>
                         <button
                             type="submit"
-                            onSubmit={this.onSubmit}
+                            onClick={this.handleSubmit}
                         >Signup</button>
                     </li>
                 </ul>

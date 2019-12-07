@@ -23,6 +23,17 @@ class AuthService {
         });
     }
 
+    register(username, email, password) {
+        return this.fetch('/auth/register',{
+            method: 'POST',
+            body: JSON.stringify({
+                username: username,
+                password: password,
+                email: email
+            })
+        });
+    }
+
     loggenIn() {
         const token = this.getToken();
         return !!token && !this.isTokenExpired(token);
@@ -93,4 +104,4 @@ class AuthService {
 }
 
 
-export default AuthService;
+export default new AuthService();

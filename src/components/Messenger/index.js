@@ -5,22 +5,15 @@ import Stomp from 'stompjs'
 import MessageList from './Components/MessageList';
 import ConversationList from './Components/ConversationList';
 import MessageInput from './Components/MessageInput';
-
+import AuthService from "../../service/AuthService";
 import ChatMessageRequest from '../../ApiContracts/ChatMessageRequest';
 import ChatMessage from '../../ApiContracts/ChatMessage';
 import withAuth from '../withAuth'
 
 
 import './Messenger.css';
-
-
-function getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
-}
-
-const URL = 'https://webchat-backend.herokuapp.com';
-// const URL = 'http://localhost:8000';
-
+import {Toolbar, Typography} from "@material-ui/core/";
+import Button from "@material-ui/core/Button";
 
 class Messenger extends Component {
 
@@ -32,41 +25,43 @@ class Messenger extends Component {
             messages: [],
             conversations: []
         };
-
-        this.username = 'Anon' + getRandomInt(1000);
+        this.username = this.props.username;
 
         this.onConnected = this.onConnected.bind(this);
         this.onError = this.onError.bind(this);
+        this.logout = this.logout.bind(this);
+
         this.sendMessage = this.sendMessage.bind(this);
         this.onMessageReceived = this.onMessageReceived.bind(this);
         this.getChatRoomMessages = this.getChatRoomMessages.bind(this);
 
-        let socket = new SockJS(URL +'/ws');
+        const socket = new SockJS('http://localhost:8000/ws');
         this.client = Stomp.over(socket);
-        this.client.connect({}, this.onConnected, this.onError);
+        this.client.connect({'Authorization': `Bearer ${AuthService.getToken()}`}, this.onConnected, this.onError);
     }
 
     onConnected() {
         this.client.subscribe('/topic/public', this.onMessageReceived);
 
-        let joinChatMessageRequest = new ChatMessageRequest(this.username, '', 'JOIN', this.chatRoomId);
-        this.client.send(
-            '/app/chat/addUser',
-            {},
-            JSON.stringify(joinChatMessageRequest)
-        );
+        // const joinChatMessageRequest = new ChatMessageRequest('', 'JOIN', this.chatRoomId);
+        // this.client.send(
+        //     '/app/chat/addUser',
+        //     {},
+        //     JSON.stringify(joinChatMessageRequest)
+        // );
     }
 
     onError(error) {
-        let errorChatMessage = new ChatMessage('Webchat', error, false);
-
-        this.setState({
-            messages: [...this.state.messages, errorChatMessage]
-        });
+        console.log(error);
+        // let errorChatMessage = new ChatMessage('Webchat', error, false);
+        //
+        // this.setState({
+        //     messages: [...this.state.messages, errorChatMessage]
+        // });
     }
 
     sendMessage(text) {
-        let chatMessageRequest = new ChatMessageRequest(this.username, text, 'CHAT', this.state.chatRoomId);
+        let chatMessageRequest = new ChatMessageRequest(text, 'CHAT', this.state.chatRoomId);
         let chatMessage = new ChatMessage(this.username, text, true);
 
         this.client.send('/app/chat/sendMessage', {}, JSON.stringify(chatMessageRequest));
@@ -97,32 +92,46 @@ class Messenger extends Component {
         })
     }
 
-    async componentDidMount() {
-        fetch(URL + '/cr')
-            .then(resp => resp.json())
-            .then(json => this.setState({conversations: json}));
+    componentDidMount() {
+        AuthService.fetch('/room')
+            .then(rooms => this.setState({conversations: rooms}));
     }
 
     getChatRoomMessages(conversationId) {
-        fetch(URL + '/cr/' + conversationId)
-            .then(resp => resp.json())
+        AuthService.fetch('/room/' + conversationId)
             .then(resp => resp.chatMessages.map((m, i) => new ChatMessage(m.sender, m.content, m.sender === this.username)))
             .then(messages => this.setState(
                 {
                     messages: Array.from(messages),
                     chatRoomId: conversationId
                 }
-            )
-        );
+                )
+            );
+    }
+
+    logout() {
+        AuthService.logOut();
+        this.props.history.replace('/');
     }
 
     render() {
         return (
             <div className="messenger">
+                <div className="top-bar">
+                    <Toolbar>
+                        <Typography variant="h6" className="app-header">
+                            Webchat
+                        </Typography>
+
+                        <Button variant="contained" color="primary" href="/me">{this.username}</Button>
+                        <Button variant="contained" color="primary" onClick={this.logout}>Logout</Button>
+                    </Toolbar>
+                </div>
+
                 <div className="scrollable left-sidebar">
                     <ConversationList
                         conversations={this.state.conversations}
-                        chooseConversation={this.getChatRoomMessages} />
+                        chooseConversation={this.getChatRoomMessages}/>
                 </div>
 
                 <div className="scrollable content">
@@ -130,12 +139,11 @@ class Messenger extends Component {
                 </div>
 
                 <div className="bottom-bar">
-                    <MessageInput onSubmitMessage={this.sendMessage} />
+                    <MessageInput onSubmitMessage={this.sendMessage}/>
                 </div>
             </div>
         );
     }
 }
-
 
 export default withAuth(Messenger);

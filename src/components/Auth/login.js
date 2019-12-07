@@ -13,8 +13,7 @@ class Login extends Component {
             password: '',
             message: ''
         }
-
-        this.authService = new AuthService();
+        
         this.handleChange = this.handleChange.bind(this);
         this.login = this.login.bind(this);
     }
@@ -29,17 +28,15 @@ class Login extends Component {
         this.setState({message: ''})
         e.preventDefault();
 
-        this.authService.login(this.state.username, this.state.password)
+        AuthService.login(this.state.username, this.state.password)
             .then(res => {
-                this.props.history.replace('/me')
+                this.props.history.replace('/')
             })
-            .catch(err => {
-                alert(err);
-            })
+            .catch(err => alert(err))
     }
 
     componentDidMount() {
-        if (this.authService.loggenIn()) {
+        if (AuthService.loggenIn()) {
             this.props.history.replace('/');
         }
     }
