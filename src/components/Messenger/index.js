@@ -22,7 +22,8 @@ class Messenger extends Component {
         super(props);
 
         this.state = {
-            chatRoomId: '',
+            subscription: null,
+            chatRoomId: null,
             messages: [],
             conversations: []
         };
@@ -34,7 +35,7 @@ class Messenger extends Component {
 
         this.sendMessage = this.sendMessage.bind(this);
         this.onMessageReceived = this.onMessageReceived.bind(this);
-        this.getChatRoomMessages = this.getChatRoomMessages.bind(this);
+        this.onChatRoomSelected = this.onChatRoomSelected.bind(this);
 
         const socket = new SockJS('http://localhost:8000/ws');
         this.client = Stomp.over(socket);
@@ -42,8 +43,6 @@ class Messenger extends Component {
     }
 
     onConnected() {
-        this.client.subscribe('/topic/public', this.onMessageReceived);
-
         // const joinChatMessageRequest = new ChatMessageRequest('', 'JOIN', this.chatRoomId);
         // this.client.send(
         //     '/app/chat/addUser',
@@ -54,18 +53,36 @@ class Messenger extends Component {
 
     onError(error) {
         console.log(error);
-        // let errorChatMessage = new ChatMessage('Webchat', error, false);
-        //
-        // this.setState({
-        //     messages: [...this.state.messages, errorChatMessage]
-        // });
+    }
+
+    onChatRoomSelected(conversationId) {
+        const {subscription} = this.state;
+        if (subscription !== null) {
+            subscription.unsubscribe();
+        }
+
+        AuthService.fetch('/room/' + conversationId)
+            .then(resp => resp.chatMessages.map((m, i) => new ChatMessage(m.sender, m.content, m.sender === this.username)))
+            .then(messages => this.setState(
+                {
+                    messages: Array.from(messages),
+                    chatRoomId: conversationId,
+                    subscription: this.client.subscribe(`/topic/room/${conversationId}`, this.onMessageReceived)
+                })
+            );
     }
 
     sendMessage(text) {
+        const {subscription, chatRoomId} = this.state;
+
+        if (subscription === null) {
+            return;
+        }
+
         let chatMessageRequest = new ChatMessageRequest(text, 'CHAT', this.state.chatRoomId);
         let chatMessage = new ChatMessage(this.username, text, true);
 
-        this.client.send('/app/chat/sendMessage', {}, JSON.stringify(chatMessageRequest));
+        this.client.send(`/chat/sendMessage/${chatRoomId}`, {}, JSON.stringify(chatMessageRequest));
 
         this.setState({
             messages: [...this.state.messages, chatMessage]
@@ -98,18 +115,6 @@ class Messenger extends Component {
             .then(rooms => this.setState({conversations: rooms}));
     }
 
-    getChatRoomMessages(conversationId) {
-        AuthService.fetch('/room/' + conversationId)
-            .then(resp => resp.chatMessages.map((m, i) => new ChatMessage(m.sender, m.content, m.sender === this.username)))
-            .then(messages => this.setState(
-                {
-                    messages: Array.from(messages),
-                    chatRoomId: conversationId
-                }
-                )
-            );
-    }
-
     disconnect() {
         this.client.disconnect();
     }
@@ -131,7 +136,7 @@ class Messenger extends Component {
                 <div className="scrollable left-sidebar">
                     <ConversationList
                         conversations={this.state.conversations}
-                        chooseConversation={this.getChatRoomMessages}/>
+                        chooseConversation={this.onChatRoomSelected}/>
                 </div>
 
                 <div className="scrollable content">
