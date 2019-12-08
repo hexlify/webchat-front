@@ -9,6 +9,10 @@
     grid-gap: 1px;
 }
 
+.app-header {
+    flex-grow: 1;
+}
+
 .scrollable {
     position: relative;
     overflow-y: scroll;

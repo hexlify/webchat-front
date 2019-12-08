@@ -5,6 +5,7 @@ import Stomp from 'stompjs'
 import MessageList from './Components/MessageList';
 import ConversationList from './Components/ConversationList';
 import MessageInput from './Components/MessageInput';
+import LogoutButton from './Components/Logout';
 import AuthService from "../../service/AuthService";
 import ChatMessageRequest from '../../ApiContracts/ChatMessageRequest';
 import ChatMessage from '../../ApiContracts/ChatMessage';
@@ -29,7 +30,7 @@ class Messenger extends Component {
 
         this.onConnected = this.onConnected.bind(this);
         this.onError = this.onError.bind(this);
-        this.logout = this.logout.bind(this);
+        this.disconnect = this.disconnect.bind(this);
 
         this.sendMessage = this.sendMessage.bind(this);
         this.onMessageReceived = this.onMessageReceived.bind(this);
@@ -109,9 +110,8 @@ class Messenger extends Component {
             );
     }
 
-    logout() {
-        AuthService.logOut();
-        this.props.history.replace('/');
+    disconnect() {
+        this.client.disconnect();
     }
 
     render() {
@@ -124,7 +124,7 @@ class Messenger extends Component {
                         </Typography>
 
                         <Button variant="contained" color="primary" href="/me">{this.username}</Button>
-                        <Button variant="contained" color="primary" onClick={this.logout}>Logout</Button>
+                        <LogoutButton onLogout={this.disconnect} />
                     </Toolbar>
                 </div>
 

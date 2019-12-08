@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import AuthService from '../../service/AuthService';
 
 import './Auth.css';
+import {Link} from "@material-ui/core";
 
 
 class Login extends Component {
@@ -12,8 +13,8 @@ class Login extends Component {
             username: '',
             password: '',
             message: ''
-        }
-        
+        };
+
         this.handleChange = this.handleChange.bind(this);
         this.login = this.login.bind(this);
     }
@@ -25,7 +26,7 @@ class Login extends Component {
     }
 
     async login(e) {
-        this.setState({message: ''})
+        this.setState({message: ''});
         e.preventDefault();
 
         AuthService.login(this.state.username, this.state.password)
@@ -43,37 +44,43 @@ class Login extends Component {
 
     render() {
         return (
-            <form className="signup-form" onSubmit={this.onSubmit}>
-                {this.state.message}
-                <ul>
-                    <li>
-                        <label htmlFor="username">Username</label>
-                        <input
-                            id="username"
-                            placeholder="Username"
-                            value={this.state.username}
-                            onChange={this.handleChange}
-                        />
-                    </li>
+            <div>
+                <form className="signup-form" onSubmit={this.onSubmit}>
+                    {this.state.message}
+                    <ul>
+                        <li>
+                            <label htmlFor="username">Username</label>
+                            <input
+                                id="username"
+                                placeholder="Username"
+                                value={this.state.username}
+                                onChange={this.handleChange}
+                            />
+                        </li>
 
-                    <li>
-                        <label htmlFor="password">Password</label>
-                        <input
-                            id="password"
-                            type="password"
-                            placeholder="Password"
-                            value={this.state.password}
-                            onChange={this.handleChange}
-                        />
-                    </li>
+                        <li>
+                            <label htmlFor="password">Password</label>
+                            <input
+                                id="password"
+                                type="password"
+                                placeholder="Password"
+                                value={this.state.password}
+                                onChange={this.handleChange}
+                            />
+                        </li>
 
-                    <li>
-                        <button
-                            onClick={this.login}
-                        >Login</button>
-                    </li>
-                </ul>
-            </form>
+                        <li>
+                            <button
+                                onClick={this.login}
+                            >Login
+                            </button>
+                        </li>
+                    </ul>
+                </form>
+                <p>
+                    Haven't got an account? Register <Link href="/signup">here</Link>
+                </p>
+            </div>
         );
     }
 }
