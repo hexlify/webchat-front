@@ -37,7 +37,7 @@ class Login extends Component {
     }
 
     componentDidMount() {
-        if (AuthService.loggenIn()) {
+        if (AuthService.loggedIn()) {
             this.props.history.replace('/');
         }
     }

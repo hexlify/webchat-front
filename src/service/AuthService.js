@@ -18,13 +18,13 @@ class AuthService {
                 password: password
             })
         }).then(res => {
-            this.saveUserInfo(res)
+            this.saveUserInfo(res);
             return Promise.resolve(res);
-        });
+        })
     }
 
     register(username, email, password) {
-        return this.fetch('/auth/register',{
+        return this.fetch('/auth/register', {
             method: 'POST',
             body: JSON.stringify({
                 username: username,
@@ -34,7 +34,7 @@ class AuthService {
         });
     }
 
-    loggenIn() {
+    loggedIn() {
         const token = this.getToken();
         return !!token && !this.isTokenExpired(token);
     }
@@ -43,8 +43,7 @@ class AuthService {
         try {
             const decoded = decode(token);
             return decoded.exp < Date.now() / 1000;
-        }
-        catch (err) {
+        } catch (err) {
             return false;
         }
     }
@@ -76,7 +75,7 @@ class AuthService {
             'Content-Type': 'application/json;charset=UTF-8'
         };
 
-        if (this.loggenIn()) {
+        if (this.loggedIn()) {
             headers['Authorization'] = 'Bearer ' + this.getToken();
         }
 
@@ -94,7 +93,7 @@ class AuthService {
             'Content-Type': 'application/json;charset=UTF-8'
         };
 
-        if (this.loggenIn()) {
+        if (this.loggedIn()) {
             headers['Authorization'] = 'Bearer ' + this.getToken();
         }
 
@@ -109,11 +108,14 @@ class AuthService {
     _checkStatus(response) {
         if (response.status >= 200 && response.status < 300) {
             return response
-        } else {
-            var error = new Error(response.status)
-            error.response = response
-            throw error
         }
+        if (response.status === 403) {
+            this.logOut();
+        }
+
+        const error = new Error(response.status);
+        error.response = response;
+        throw error;
     }
 }
 

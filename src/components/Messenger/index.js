@@ -69,7 +69,8 @@ class Messenger extends Component {
                     chatRoomId: conversationId,
                     subscription: this.client.subscribe(`/topic/room/${conversationId}`, this.onMessageReceived)
                 })
-            );
+            )
+            .catch(e => console.log(e));
     }
 
     sendMessage(text) {
@@ -112,7 +113,8 @@ class Messenger extends Component {
 
     componentDidMount() {
         AuthService.fetch('/room')
-            .then(rooms => this.setState({conversations: rooms}));
+            .then(rooms => this.setState({conversations: rooms}))
+            .catch(e => console.log(e));
     }
 
     disconnect() {

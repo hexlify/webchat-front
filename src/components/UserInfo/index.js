@@ -22,7 +22,7 @@ class UserInfo extends Component {
             .then(info => {
                 this.setState({...info})
             })
-            .catch(err => console.log(err));
+            .catch(e => console.log(e))
     }
 
     render() {

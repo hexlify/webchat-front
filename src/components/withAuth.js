@@ -14,12 +14,13 @@ export default function withAuth(AuthComponent) {
         }
 
         componentDidMount() {
-            if (!AuthService.loggenIn()) {
+            if (!AuthService.loggedIn()) {
                 this.props.history.replace('/login');
             } else {
                 AuthService
                     .fetch('/user')
                     .then(info => this.setState({username: info.username, roles: info.roles}))
+                    .catch(e => console.log(e));
             }
         }
 

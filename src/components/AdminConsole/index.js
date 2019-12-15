@@ -28,6 +28,7 @@ class AdminConsole extends Component {
         } else {
             AuthService.fetch('/admin/users')
                 .then(users => this.setState({users: users}))
+                .catch(e => console.log(e));
         }
     }
 
