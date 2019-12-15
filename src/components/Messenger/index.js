@@ -128,6 +128,10 @@ class Messenger extends Component {
                             Webchat
                         </Typography>
 
+                        {this.props.isAdmin &&
+                            <Button variant="contained" color="red" href="/admin">Admin console</Button>
+                        }
+
                         <Button variant="contained" color="primary" href="/me">{this.username}</Button>
                         <LogoutButton onLogout={this.disconnect} />
                     </Toolbar>

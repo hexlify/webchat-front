@@ -4,6 +4,7 @@ import Messenger from './components/Messenger'
 import Signup from "./components/Auth/signup";
 import Login from "./components/Auth/login";
 import UserInfo from './components/UserInfo'
+import AdminConsole from './components/AdminConsole'
 
 import './App.css';
 
@@ -13,6 +14,7 @@ function App() {
             <Route exact path="/login" component={Login}/>
             <Route exact path="/signup" component={Signup}/>
             <Route exact path="/me" component={UserInfo}/>
+            <Route exact path="/admin" component={AdminConsole}/>
             <Route exact path="/" component={Messenger}/>
         </Router>
     )

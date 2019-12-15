@@ -42,11 +42,7 @@ class AuthService {
     isTokenExpired(token) {
         try {
             const decoded = decode(token);
-            if (decoded.exp < Date.now() / 1000) {
-                return true;
-            }
-            else
-                return false;
+            return decoded.exp < Date.now() / 1000;
         }
         catch (err) {
             return false;
@@ -73,12 +69,30 @@ class AuthService {
         localStorage.removeItem("userInfo");
     }
 
+    simpleFetch(path, options) {
+        const url = this.domain + path;
+        const headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8'
+        };
+
+        if (this.loggenIn()) {
+            headers['Authorization'] = 'Bearer ' + this.getToken();
+        }
+
+        return fetch(url, {
+            headers,
+            ...options
+        })
+            .then(resp => this._checkStatus(resp))
+    }
+
     fetch(path, options) {
         const url = this.domain + path;
         const headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json;charset=UTF-8'
-        }
+        };
 
         if (this.loggenIn()) {
             headers['Authorization'] = 'Bearer ' + this.getToken();

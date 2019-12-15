@@ -8,7 +8,8 @@ export default function withAuth(AuthComponent) {
             super(props);
 
             this.state = {
-                username: null
+                username: null,
+                roles: []
             }
         }
 
@@ -18,14 +19,18 @@ export default function withAuth(AuthComponent) {
             } else {
                 AuthService
                     .fetch('/user')
-                    .then(info => this.setState({username: info.username}))
+                    .then(info => this.setState({username: info.username, roles: info.roles}))
             }
         }
 
         render() {
             if (this.state.username) {
                 return (
-                    <AuthComponent history={this.props.history} username={this.state.username} />
+                    <AuthComponent
+                        history={this.props.history}
+                        username={this.state.username}
+                        isAdmin={this.state.roles.some(x => x.name === 'ROLE_ADMIN')}
+                    />
                 )
             } else {
                 return null;
