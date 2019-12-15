@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, } from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Messenger from './components/Messenger'
 import Signup from "./components/Auth/signup";
 import Login from "./components/Auth/login";
@@ -11,11 +11,13 @@ import './App.css';
 function App() {
     return (
         <Router>
-            <Route exact path="/login" component={Login}/>
-            <Route exact path="/signup" component={Signup}/>
-            <Route exact path="/me" component={UserInfo}/>
-            <Route exact path="/admin" component={AdminConsole}/>
-            <Route exact path="/" component={Messenger}/>
+            <Switch>
+                <Route exact path="/login" component={Login}/>
+                <Route exact path="/signup" component={Signup}/>
+                <Route exact path="/me" component={UserInfo}/>
+                <Route exact path="/admin" component={AdminConsole}/>
+                <Route exact path="/" component={Messenger}/>
+            </Switch>
         </Router>
     )
 }

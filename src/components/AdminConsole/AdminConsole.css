@@ -1,0 +1,22 @@
+.admin-console {
+    display: grid;
+    width: 100%;
+    height: calc(100vh - 1px);
+
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+
+.admin-user-list {
+    grid-column: 1;
+    grid-row: 1;
+    overflow-y: scroll;
+}
+
+
+.admin-chat-list {
+    grid-column: 1;
+    grid-row: 1;
+    overflow-y: scroll;
+}
