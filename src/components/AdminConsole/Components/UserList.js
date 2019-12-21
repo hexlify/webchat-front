@@ -1,13 +1,6 @@
 import React, {Component} from "react";
-import {Table, TableBody, TableCell, TableHead, TableRow} from "@material-ui/core";
-import Button from "@material-ui/core/Button";
 import AuthService from "../../../service/AuthService";
-
-function parseRoles(roles) {
-    return roles
-        .map(r => r.name === 'ROLE_ADMIN' ? 'ADMIN' : 'USER')
-        .join(',');
-}
+import MaterialTable from "material-table";
 
 
 class AdminConsole extends Component {
@@ -47,45 +40,44 @@ class AdminConsole extends Component {
             .catch(e => alert(e));
     }
 
-    getActionButton(userStatus, userId) {
-        return userStatus === 'ACTIVE'
+    getActionButton(rowData) {
+        return rowData.status === 'ACTIVE'
             ?
-            <Button variant="contained" color="secondary" size="small"
-                    onClick={e => this.banUser(userId)}>Ban</Button>
-            : <Button variant="contained" color="secondary" size="small"
-                      onClick={e => this.activateUser(userId)}>Activate</Button>
+            {
+                icon: 'block',
+                tooltip: 'Ban user',
+                onClick: (e, rowData) => this.banUser(rowData.id)
+            } :
+
+            {
+                icon: 'replay',
+                tooltip: 'Unban user',
+                onClick: (e, rowData) => this.activateUser(rowData.id)
+            };
     }
 
     render() {
         return (
-            <Table size="small">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Id</TableCell>
-                        <TableCell>Username</TableCell>
-                        <TableCell>FirstName</TableCell>
-                        <TableCell>Email</TableCell>
-                        <TableCell>Status</TableCell>
-                        <TableCell>Roles</TableCell>
-                        <TableCell>Actions</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {this.state.users.sort((x, y) => x.id > y.id).map(u => (
-                        <TableRow key={u.id}>
-                            <TableCell>{u.id}</TableCell>
-                            <TableCell>{u.username}</TableCell>
-                            <TableCell>{u.firstName}</TableCell>
-                            <TableCell>{u.email}</TableCell>
-                            <TableCell>{u.status}</TableCell>
-                            <TableCell>{parseRoles(u.roles)}</TableCell>
-                            <TableCell>
-                                {this.getActionButton(u.status, u.id)}
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
+            <MaterialTable
+                columns={[
+                    {title: "Id", field: "id", editable: "never"},
+                    {title: "Username", field: "username"},
+                    {title: "FirstName", field: "firstName"},
+                    {title: "Email", field: "email"},
+                    {title: "Status", field: "status"},
+                    {
+                        title: "Roles",
+                        field: "roles",
+                        render: rowData => rowData.roles
+                            .map(r => r.name === 'ROLE_ADMIN' ? 'ADMIN' : 'USER')
+                            .join(',')
+                    },
+                ]}
+                data={this.state.users.sort((a, b) => a.id > b.id)}
+                title="Users"
+
+                actions={[rowData => this.getActionButton(rowData)]}
+            />
         );
     }
 }

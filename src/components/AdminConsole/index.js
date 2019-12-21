@@ -4,7 +4,6 @@ import UserList from "./Components/UserList";
 
 import './AdminConsole.css'
 import ChatRoomList from "./Components/ChatRoomList";
-import {Link, Route, Switch, useRouteMatch} from "react-router-dom";
 
 class AdminConsole extends Component {
 
@@ -17,20 +16,8 @@ class AdminConsole extends Component {
     render() {
         return (
             <div>
-                <ul>
-                    <li>
-                        <Link to={`/admin/users`}>User list</Link>
-                    </li>
-                    <li>
-                        <Link to={`/admin/rooms`}>Chat rooms</Link>
-                    </li>
-                </ul>
-
-                <Switch>
-                    <Route path="/admin/users">
-                        <UserList />
-                    </Route>
-                </Switch>
+                <ChatRoomList/>
+                <UserList/>
             </div>
         );
     }
