@@ -36,7 +36,7 @@ class Signup extends Component {
         AuthService
             .register(this.state.username, this.state.email, this.state.password)
             .then(() => this.props.history.replace('/login'))
-            .catch(err => alert(err));
+            .catch(e => alert(e.message.message));
     }
 
     render() {

@@ -33,7 +33,7 @@ class Login extends Component {
             .then(res => {
                 this.props.history.replace('/')
             })
-            .catch(err => alert(err))
+            .catch(e => alert(e.message))
     }
 
     componentDidMount() {

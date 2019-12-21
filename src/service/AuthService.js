@@ -105,7 +105,7 @@ class AuthService {
             .then(resp => resp.json());
     }
 
-    _checkStatus(response) {
+    async _checkStatus(response) {
         if (response.status >= 200 && response.status < 300) {
             return response
         }
@@ -113,7 +113,8 @@ class AuthService {
             this.logOut();
         }
 
-        const error = new Error(response.status);
+        const message = (await response.json()).message;
+        const error = new Error(response.status + ':  ' + message);
         error.response = response;
         throw error;
     }

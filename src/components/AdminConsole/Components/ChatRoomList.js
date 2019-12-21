@@ -14,7 +14,7 @@ class ChatRoomList extends Component {
     componentDidMount() {
         AuthService.fetch('/room')
             .then(rooms => this.setState({chatRooms: rooms}))
-            .catch(e => console.log(e));
+            .catch(e => console.log(e.message));
     }
 
     render() {
@@ -37,7 +37,7 @@ class ChatRoomList extends Component {
                                     this.setState({chatRooms}, () => resolve());
                                 })
                                 .catch(e => {
-                                    alert(e);
+                                    alert(e.message)
                                     reject();
                                 })
                         })),
@@ -57,7 +57,7 @@ class ChatRoomList extends Component {
                                     this.setState({chatRooms}, () => resolve());
                                 })
                                 .catch(e => {
-                                    alert(e);
+                                    alert(e.message);
                                     reject();
                                 })
                         })),
@@ -76,7 +76,7 @@ class ChatRoomList extends Component {
                                     this.setState({chatRooms}, () => resolve());
                                 })
                                 .catch(e => {
-                                    alert(e);
+                                    alert(e.message);
                                     reject();
                                 })
                         }))

@@ -15,7 +15,7 @@ class AdminConsole extends Component {
     componentDidMount() {
         AuthService.fetch('/admin/users')
             .then(users => this.setState({users: users}))
-            .catch(e => console.log(e));
+            .catch(e => console.log(e.message));
     }
 
     banUser(userId) {
@@ -26,7 +26,7 @@ class AdminConsole extends Component {
 
                 return state;
             }))
-            .catch(e => alert(e));
+            .catch(e => alert(e.message));
     }
 
     activateUser(userId) {
@@ -37,7 +37,7 @@ class AdminConsole extends Component {
 
                 return state;
             }))
-            .catch(e => alert(e));
+            .catch(e => alert(e.message));
     }
 
     getActionButton(rowData) {
