@@ -5,6 +5,7 @@ import Signup from "./components/Auth/signup";
 import Login from "./components/Auth/login";
 import UserInfo from './components/UserInfo'
 import AdminConsole from './components/AdminConsole'
+import Confirm from "./components/Confirm";
 
 import './App.css';
 
@@ -16,6 +17,7 @@ function App() {
                 <Route exact path="/signup" component={Signup}/>
                 <Route exact path="/me" component={UserInfo}/>
                 <Route exact path="/admin" component={AdminConsole}/>
+                <Route exact path="/confirm/:token" component={Confirm}/>>
                 <Route exact path="/" component={Messenger}/>
             </Switch>
         </Router>
