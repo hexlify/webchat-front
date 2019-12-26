@@ -131,7 +131,7 @@ class Messenger extends Component {
                         </Typography>
 
                         {this.props.isAdmin &&
-                            <Button variant="contained" color="red" href="/admin">Admin console</Button>
+                            <Button variant="contained" color="default" href="/admin">Admin console</Button>
                         }
 
                         <Button variant="contained" color="primary" href="/me">{this.username}</Button>
