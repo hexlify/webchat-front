@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/webchat-front/static/css/main.3c796dd9.chunk.css",
+    "main.js": "/webchat-front/static/js/main.ead7dbdf.chunk.js",
+    "main.js.map": "/webchat-front/static/js/main.ead7dbdf.chunk.js.map",
+    "runtime-main.js": "/webchat-front/static/js/runtime-main.2a668412.js",
+    "runtime-main.js.map": "/webchat-front/static/js/runtime-main.2a668412.js.map",
+    "static/js/2.8f4c9ec7.chunk.js": "/webchat-front/static/js/2.8f4c9ec7.chunk.js",
+    "static/js/2.8f4c9ec7.chunk.js.map": "/webchat-front/static/js/2.8f4c9ec7.chunk.js.map",
+    "index.html": "/webchat-front/index.html",
+    "precache-manifest.e2fbcf4166836dd2285d47cafef1f753.js": "/webchat-front/precache-manifest.e2fbcf4166836dd2285d47cafef1f753.js",
+    "service-worker.js": "/webchat-front/service-worker.js",
+    "static/css/main.3c796dd9.chunk.css.map": "/webchat-front/static/css/main.3c796dd9.chunk.css.map",
+    "static/js/2.8f4c9ec7.chunk.js.LICENSE": "/webchat-front/static/js/2.8f4c9ec7.chunk.js.LICENSE"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.2a668412.js",
+    "static/js/2.8f4c9ec7.chunk.js",
+    "static/css/main.3c796dd9.chunk.css",
+    "static/js/main.ead7dbdf.chunk.js"
+  ]
+}
